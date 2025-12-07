@@ -1,24 +1,24 @@
 package pl.wsb.fitnesstracker.loader;
 
-import lombok.ToString;
-import lombok.extern.slf4j.Slf4j;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import static java.time.LocalDate.now;
+import java.util.ArrayList;
+import java.util.List;
+import static java.util.Objects.isNull;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-
-import static java.time.LocalDate.now;
-import static java.util.Objects.isNull;
 
 /**
  * Sample init data loader. If the application is run with `loadInitialData` profile, then on application startup it will fill the database with dummy data,
@@ -72,7 +72,8 @@ class InitialDataLoader {
         users.add(generateUser("Noah", "Miller", 39));
         users.add(generateUser("Grace", "Anderson", 33));
         users.add(generateUser("Oliver", "Swift", 29));
-
+        users.add(generateUser("Mikołaj", "Święty", 67));
+        
         return users;
     }
 
