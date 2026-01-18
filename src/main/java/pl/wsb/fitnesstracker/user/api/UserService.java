@@ -21,4 +21,12 @@ public interface UserService {
      */
     void deleteUser(Long id);
 
+    /**
+     * Updates an existing user.
+     *
+     * @param user The user with updated information
+     * @return The updated user
+     */
+    User updateUser(User user);
+
 }

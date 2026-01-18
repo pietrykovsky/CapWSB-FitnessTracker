@@ -3,9 +3,11 @@ package pl.wsb.fitnesstracker.user.internal;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.user.api.UserDto;
+import pl.wsb.fitnesstracker.user.api.UserEmailSimpleDto;
 import pl.wsb.fitnesstracker.user.api.UserNotFoundException;
 import pl.wsb.fitnesstracker.user.api.UserSimpleDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -58,5 +60,28 @@ class UserController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/email")
+    public List<UserEmailSimpleDto> getUsersByEmailFragment(@RequestParam String email) {
+        return userService.findAllUsersByEmailFragment(email)
+                .stream()
+                .map(userMapper::toEmailSimpleDto)
+                .toList();
+    }
+
+    @GetMapping("/older/{time}")
+    public List<UserDto> getUsersOlderThan(@PathVariable LocalDate time) {
+        return userService.findAllUsersOlderThan(time)
+                .stream()
+                .map(userMapper::toDto)
+                .toList();
+    }
+
+    @PutMapping("/{id}")
+    public UserDto updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+        pl.wsb.fitnesstracker.user.api.User userEntity = userMapper.toEntity(userDto);
+        userEntity.setId(id);
+        return userMapper.toDto(userService.updateUser(userEntity));
     }
 }

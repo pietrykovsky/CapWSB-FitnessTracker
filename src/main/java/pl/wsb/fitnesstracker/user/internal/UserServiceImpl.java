@@ -6,6 +6,7 @@ import pl.wsb.fitnesstracker.user.api.User;
 import pl.wsb.fitnesstracker.user.api.UserProvider;
 import pl.wsb.fitnesstracker.user.api.UserService;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,24 @@ class UserServiceImpl implements UserService, UserProvider {
     @Override
     public List<User> findAllUsers() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public List<User> findAllUsersByEmailFragment(final String emailFragment) {
+        return userRepository.findByEmailFragment(emailFragment);
+    }
+
+    @Override
+    public List<User> findAllUsersOlderThan(final LocalDate time) {
+        return userRepository.findByBirthdateBefore(time);
+    }
+
+    @Override
+    public User updateUser(final User user) {
+        if (user.getId() == null) {
+            throw new IllegalArgumentException("User has no DB ID, update is not permitted!");
+        }
+        return userRepository.save(user);
     }
 
 }
